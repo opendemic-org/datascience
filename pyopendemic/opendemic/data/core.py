@@ -28,7 +28,7 @@ class AbstractRegionData(ABC):
         diffcases = np.diff(cases)
         idx_start = 0
         for i, v in enumerate(diffcases):
-            if v == 0:
+            if v < 15:
                 idx_start = i + 1
             else:
                 break
@@ -45,7 +45,7 @@ class AbstractRegionData(ABC):
 
         self._cases = cases[idx_start:]
 
-        new_cases = gaussian_filter1d(np.diff(self._cases), 3)
+        new_cases = np.round(gaussian_filter1d(np.diff(self._cases), 3))
         self._smoothed_new_cases = np.insert(new_cases, 0, self._cases[0])
 
         dates = np.asarray(dates)
